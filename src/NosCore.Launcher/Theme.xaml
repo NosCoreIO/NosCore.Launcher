@@ -2,8 +2,40 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
+    <!-- Backdrop is drawn, not shipped. The launcher it replaces used official
+         NosTale key art, which is Gameforge's and cannot live in this repo; a
+         server operator points BackgroundUrl at their own artwork to override
+         all of this, and gets a deliberate night scene until they do. -->
+    <LinearGradientBrush x:Key="BackdropSky" StartPoint="0,0" EndPoint="0.25,1">
+        <GradientStop Color="#FF10142E" Offset="0" />
+        <GradientStop Color="#FF1E2450" Offset="0.38" />
+        <GradientStop Color="#FF39306A" Offset="0.66" />
+        <GradientStop Color="#FF6B4A7A" Offset="0.84" />
+        <GradientStop Color="#FF2A2246" Offset="1" />
+    </LinearGradientBrush>
+
+    <RadialGradientBrush x:Key="BackdropGlow" Center="0.49,0.485" GradientOrigin="0.49,0.485"
+                         RadiusX="0.55" RadiusY="0.55">
+        <GradientStop Color="#99FFE9C4" Offset="0" />
+        <GradientStop Color="#33FFD9A0" Offset="0.35" />
+        <GradientStop Color="#00FFD9A0" Offset="1" />
+    </RadialGradientBrush>
+
+    <!-- Vignette, so the wash panels and outlined text keep their contrast at
+         the edges regardless of what the gradient is doing behind them. -->
+    <RadialGradientBrush x:Key="BackdropVignette" Center="0.5,0.45" GradientOrigin="0.5,0.45"
+                         RadiusX="0.78" RadiusY="0.85">
+        <GradientStop Color="#00000000" Offset="0.45" />
+        <GradientStop Color="#59000000" Offset="0.85" />
+        <GradientStop Color="#A6000000" Offset="1" />
+    </RadialGradientBrush>
+
+    <SolidColorBrush x:Key="RidgeFar" Color="#FF2A2A52" />
+    <SolidColorBrush x:Key="RidgeMid" Color="#FF1B1C3A" />
+    <SolidColorBrush x:Key="RidgeNear" Color="#FF101127" />
+
     <!-- Palette carried over from the Electron launcher's LESS: light grey text
-         over the background photo, panels as flat black washes at 40% / 60%. -->
+         over the backdrop, panels as flat black washes at 40% / 60%. -->
     <SolidColorBrush x:Key="Text" Color="LightGray" />
     <SolidColorBrush x:Key="TextStrong" Color="White" />
     <SolidColorBrush x:Key="TextLink" Color="LightBlue" />

@@ -24,10 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\background.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="NosCore.ClientTools" />
     <PackageReference Include="NosCore.Shared" />

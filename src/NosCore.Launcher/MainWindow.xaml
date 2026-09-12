@@ -18,11 +18,27 @@
 
     <Border CornerRadius="6" ClipToBounds="True">
         <Grid>
-            <!-- Bundled artwork is the floor. A hosted BackgroundUrl paints over
-                 it, so a slow or missing download degrades to the shipped photo
-                 rather than to nothing. -->
-            <Image Source="Assets/background.jpg" Stretch="UniformToFill"
-                   HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <!-- Drawn backdrop is the floor; a hosted BackgroundUrl paints over
+                 it, so a slow or missing download degrades to this rather than
+                 to nothing. The ridges are authored in a fixed 960x680 space and
+                 stretched, so they hold their shape when the window clamps to a
+                 smaller work area. -->
+            <Grid>
+                <Rectangle Fill="{StaticResource BackdropSky}" />
+                <Rectangle Fill="{StaticResource BackdropGlow}" />
+                <Viewbox Stretch="Fill">
+                <Canvas Width="960" Height="680" ClipToBounds="True" Background="Transparent">
+                    <Ellipse Canvas.Left="441" Canvas.Top="301" Width="58" Height="58" Fill="#FFFFF4DC" />
+                    <Path Fill="{StaticResource RidgeFar}"
+                          Data="M0,470 L120,392 L206,438 L316,352 L430,444 L520,396 L640,468 L742,414 L860,470 L960,430 L960,680 L0,680 Z" />
+                    <Path Fill="{StaticResource RidgeMid}"
+                          Data="M0,540 L96,486 L204,540 L300,470 L412,546 L536,486 L640,552 L768,498 L880,556 L960,514 L960,680 L0,680 Z" />
+                    <Path Fill="{StaticResource RidgeNear}"
+                          Data="M0,604 L140,558 L268,608 L392,552 L512,614 L648,564 L790,618 L900,578 L960,606 L960,680 L0,680 Z" />
+                </Canvas>
+                </Viewbox>
+                <Rectangle Fill="{StaticResource BackdropVignette}" />
+            </Grid>
             <Image Source="{Binding BackgroundUrl}" Stretch="UniformToFill" />
 
             <Grid>
