@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>NosCore.Launcher</RootNamespace>
+    <AssemblyName>NosCore.Launcher</AssemblyName>
+    <ApplicationIcon>Assets\launcher.ico</ApplicationIcon>
+    <AssemblyTitle>NosCore.Launcher</AssemblyTitle>
+    <Description>Launcher for NosCore servers.</Description>
+    <!-- The launcher only spawns the client, it never shares its address
+         space, so it carries none of the injector's x86 constraint. -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Label="PublishSingleFile" Condition="'$(Configuration)'=='Release'">
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="NosCore.ClientTools" />
+    <PackageReference Include="NosCore.Shared" />
+  </ItemGroup>
+
+</Project>

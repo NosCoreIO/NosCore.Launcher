@@ -1,0 +1,17 @@
+{
+  "Title": "NosCore",
+  "Description": "A NosTale server running on NosCore.",
+  "LoginServerIp": "127.0.0.1",
+  "BackgroundUrl": "",
+  "StatusUrl": "",
+  "Auth": {
+    "Url": "https://127.0.0.1",
+    "Port": 7001
+  },
+  "Links": {
+    "Website": "https://github.com/NosCoreIO/NosCore",
+    "Discord": ""
+  },
+  "News": {},
+  "Ads": {}
+}

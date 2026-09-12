@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/NosCore.Launcher/NosCore.Launcher.csproj" />
+  </Folder>
+</Solution>
