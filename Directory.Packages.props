@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="NosCore.ClientTools" Version="0.0.1" />
+    <PackageVersion Include="NosCore.Shared" Version="6.0.2" />
+  </ItemGroup>
+</Project>
