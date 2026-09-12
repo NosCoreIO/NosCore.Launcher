@@ -11,6 +11,9 @@
             <views:NullToCollapsedConverter x:Key="NullToCollapsed" />
             <views:EmptyToCollapsedConverter x:Key="EmptyToCollapsed" />
             <views:ZeroToVisibleConverter x:Key="ZeroToVisible" />
+            <views:ZeroToCollapsedConverter x:Key="ZeroToCollapsed" />
+            <views:BoolToVisibleConverter x:Key="BoolToVisible" />
+            <views:TrueToCollapsedConverter x:Key="TrueToCollapsed" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

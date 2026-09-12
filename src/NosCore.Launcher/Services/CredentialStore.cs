@@ -59,11 +59,20 @@ public static class CredentialStore
         }
     }
 
-    public static void Delete(string username)
+    /// <summary>
+    /// Removes the stored password. Returns false only when one may still be
+    /// stored — "no such credential" counts as success, because this also runs
+    /// on sign-in with Remember unticked, where there is usually nothing to
+    /// delete. A real failure must not be reported to the user as signed out.
+    /// </summary>
+    public static bool Delete(string username)
     {
-        if (string.IsNullOrWhiteSpace(username)) return;
-        CredDeleteW(TargetName(username), CredentialType.Generic, 0);
+        if (string.IsNullOrWhiteSpace(username)) return true;
+        if (CredDeleteW(TargetName(username), CredentialType.Generic, 0)) return true;
+        return Marshal.GetLastWin32Error() == ErrorNotFound;
     }
+
+    private const int ErrorNotFound = 1168;
 
     private static string TargetName(string username) => $"{TargetPrefix}:{username}";
 

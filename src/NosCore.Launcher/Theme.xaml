@@ -1,109 +1,116 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
-    <Color x:Key="InkColor">#FF0E1220</Color>
-    <Color x:Key="PanelColor">#FF161C2E</Color>
-    <Color x:Key="AccentColor">#FF3D7BFF</Color>
+    <!-- Palette carried over from the Electron launcher's LESS: light grey text
+         over the background photo, panels as flat black washes at 40% / 60%. -->
+    <SolidColorBrush x:Key="Text" Color="LightGray" />
+    <SolidColorBrush x:Key="TextStrong" Color="White" />
+    <SolidColorBrush x:Key="TextLink" Color="LightBlue" />
+    <SolidColorBrush x:Key="TextDim" Color="DarkGray" />
+    <SolidColorBrush x:Key="Wash40" Color="#66000000" />
+    <SolidColorBrush x:Key="Wash60" Color="#99000000" />
+    <SolidColorBrush x:Key="Panel" Color="#FF1B1B1B" />
+    <SolidColorBrush x:Key="Field" Color="#FF101010" />
+    <SolidColorBrush x:Key="Line" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="Accent" Color="#FF007BFF" />
 
-    <SolidColorBrush x:Key="Ink" Color="{StaticResource InkColor}" />
-    <SolidColorBrush x:Key="Panel" Color="{StaticResource PanelColor}" />
-    <SolidColorBrush x:Key="Accent" Color="{StaticResource AccentColor}" />
-    <SolidColorBrush x:Key="Text" Color="#FFEDF1F8" />
-    <SolidColorBrush x:Key="TextMuted" Color="#FF9AA6BE" />
-    <SolidColorBrush x:Key="Line" Color="#26FFFFFF" />
-
-    <!-- Painted behind the optional remote background image so the window is
-         never bare while that downloads, or when the config supplies none. -->
-    <LinearGradientBrush x:Key="Backdrop" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#FF11172A" Offset="0" />
-        <GradientStop Color="#FF1B2440" Offset="0.55" />
-        <GradientStop Color="#FF0B0F1A" Offset="1" />
-    </LinearGradientBrush>
-
-    <Style x:Key="Scrim" TargetType="Border">
-        <Setter Property="Background" Value="#B20B0F1A" />
-        <Setter Property="CornerRadius" Value="6" />
-    </Style>
+    <!-- The original drew a 1px black outline on every glyph with a four-way
+         text-shadow. WPF has no text-shadow; a zero-depth black drop shadow is
+         the closest equivalent that stays cheap, and does the same job of
+         keeping text legible over an arbitrary photo. -->
+    <DropShadowEffect x:Key="TextOutline" Color="Black" ShadowDepth="0" BlurRadius="4"
+                      Opacity="1" RenderingBias="Quality" />
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Effect" Value="{StaticResource TextOutline}" />
     </Style>
 
     <Style x:Key="Heading" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource Text}" />
+        <Setter Property="Foreground" Value="{StaticResource TextStrong}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="30" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="TextWrapping" Value="Wrap" />
-    </Style>
-
-    <Style x:Key="SectionHeading" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
-        <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="Effect" Value="{StaticResource TextOutline}" />
     </Style>
 
     <Style x:Key="Body" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+        <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="LineHeight" Value="19" />
+        <Setter Property="Effect" Value="{StaticResource TextOutline}" />
     </Style>
 
-    <!-- Link-shaped button: used for nav, news headlines and the ad surface, so
-         a click target is always a real Button rather than a Hyperlink inside
-         text we would then have to style twice. -->
+    <Style x:Key="Small" TargetType="TextBlock" BasedOn="{StaticResource Body}">
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Link-shaped button, so nav / news / ads are all real click targets
+         rather than Hyperlinks inside text needing a second set of styles. -->
     <Style x:Key="LinkButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="Padding" Value="0,3" />
-        <Setter Property="Foreground" Value="{StaticResource Text}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextStrong}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Effect" Value="{StaticResource TextOutline}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center" />
+                                          VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Accent}" />
+                <Setter Property="Foreground" Value="{StaticResource TextLink}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Text}" />
+                <Setter Property="Cursor" Value="Arrow" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="PrimaryButton" TargetType="Button">
+    <Style x:Key="NewsLink" TargetType="Button" BasedOn="{StaticResource LinkButton}">
+        <Setter Property="Foreground" Value="{StaticResource TextLink}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <!-- 250px, square corners, bootstrap-primary blue: as it was. -->
+    <Style x:Key="PlayButton" TargetType="Button">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Height" Value="54" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Shell" CornerRadius="4" Background="{StaticResource Accent}">
+                    <Border x:Name="Shell" Background="{StaticResource Accent}" CornerRadius="0">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Shell" Property="Background" Value="#FF5590FF" />
+                            <Setter TargetName="Shell" Property="Background" Value="#FF0069D9" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Shell" Property="Background" Value="#FF2A3250" />
-                            <Setter Property="Foreground" Value="#FF7C879E" />
+                            <Setter TargetName="Shell" Property="Background" Value="#FF3F5B7E" />
+                            <Setter Property="Foreground" Value="#FFCCCCCC" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -111,22 +118,47 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ChromeButton" TargetType="Button">
-        <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+    <!-- Grey glyph buttons in the title bar, darkening on hover. -->
+    <Style x:Key="ChromeGlyph" TargetType="Button">
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="Transparent" Padding="4,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="DarkGray" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DialogButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Width" Value="42" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="MinWidth" Value="88" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Shell" Background="Transparent">
+                    <Border x:Name="Shell" Background="{StaticResource Accent}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Shell" Property="Background" Value="#1AFFFFFF" />
-                            <Setter Property="Foreground" Value="{StaticResource Text}" />
+                            <Setter TargetName="Shell" Property="Background" Value="#FF0069D9" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -134,16 +166,20 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DialogButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="MinWidth" Value="88" />
+    <!-- Dialogs sit on a solid panel, not the photo, so they opt out of the outline. -->
+    <Style x:Key="DialogText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Text}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Effect" Value="{x:Null}" />
     </Style>
 
     <Style TargetType="TextBox">
-        <Setter Property="Background" Value="#FF0C1120" />
-        <Setter Property="Foreground" Value="{StaticResource Text}" />
-        <Setter Property="CaretBrush" Value="{StaticResource Text}" />
+        <Setter Property="Background" Value="{StaticResource Field}" />
+        <Setter Property="Foreground" Value="{StaticResource TextStrong}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextStrong}" />
         <Setter Property="BorderBrush" Value="{StaticResource Line}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="7,5" />
@@ -152,9 +188,9 @@
     </Style>
 
     <Style TargetType="PasswordBox">
-        <Setter Property="Background" Value="#FF0C1120" />
-        <Setter Property="Foreground" Value="{StaticResource Text}" />
-        <Setter Property="CaretBrush" Value="{StaticResource Text}" />
+        <Setter Property="Background" Value="{StaticResource Field}" />
+        <Setter Property="Foreground" Value="{StaticResource TextStrong}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextStrong}" />
         <Setter Property="BorderBrush" Value="{StaticResource Line}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="7,5" />
@@ -162,15 +198,8 @@
         <Setter Property="FontSize" Value="13" />
     </Style>
 
-    <Style x:Key="FieldLabel" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
-        <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Margin" Value="0,0,0,4" />
-    </Style>
-
     <Style TargetType="CheckBox">
-        <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+        <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value="12" />
     </Style>

@@ -8,7 +8,7 @@ using NosCore.Launcher.Services;
 
 namespace NosCore.Launcher.ViewModels;
 
-public sealed record LinkItem(string Label, string Url);
+public sealed record LinkItem(string Label, string Url, bool IsFirst);
 
 public sealed record NewsItem(string Headline, string Url)
 {
@@ -90,21 +90,26 @@ public sealed partial class MainViewModel : ObservableObject
 
         Title = _config.Title;
         Description = _config.Description;
-        BackgroundUrl = string.IsNullOrWhiteSpace(_config.BackgroundUrl) ? null : _config.BackgroundUrl;
+        // Every URL below comes from a file we do not control. Image.Source will
+        // resolve a file: or UNC source, which on a remote share means an
+        // outbound SMB handshake carrying the current user's credentials, so
+        // anything that is not http(s) is dropped rather than rendered.
+        BackgroundUrl = UrlPolicy.Sanitise(_config.BackgroundUrl);
 
-        foreach (var (label, url) in _config.Links.Where(l => !string.IsNullOrWhiteSpace(l.Value)))
+        foreach (var (label, url) in _config.Links.Where(l => UrlPolicy.IsWebUrl(l.Value)))
         {
-            Links.Add(new LinkItem(label, url));
+            Links.Add(new LinkItem(label, url, IsFirst: Links.Count == 0));
         }
 
         foreach (var (headline, url) in _config.News)
         {
-            News.Add(new NewsItem(headline, url));
+            // A headline with no usable link still belongs on the panel, as text.
+            News.Add(new NewsItem(headline, UrlPolicy.IsWebUrl(url) ? url : string.Empty));
         }
 
-        foreach (var ad in _config.Ads.Values.Where(a => !string.IsNullOrWhiteSpace(a.Img)))
+        foreach (var ad in _config.Ads.Values.Where(a => UrlPolicy.IsWebUrl(a.Img)))
         {
-            Ads.Add(new AdItem(ad.Img, ad.Url, ad.Description));
+            Ads.Add(new AdItem(ad.Img, UrlPolicy.IsWebUrl(ad.Url) ? ad.Url : string.Empty, ad.Description));
         }
         CurrentAd = Ads.FirstOrDefault();
         if (Ads.Count > 1)
@@ -161,17 +166,20 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void OpenUrl(string? url)
     {
-        if (string.IsNullOrWhiteSpace(url))
+        // UseShellExecute hands the string to whichever protocol handler is
+        // registered for its scheme, and the string came out of the hosted
+        // config. Only a browsable http(s) URL gets that far.
+        if (!UrlPolicy.TryParse(url, out var target))
         {
             return;
         }
         try
         {
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(target!.ToString()) { UseShellExecute = true });
         }
         catch (Exception ex)
         {
-            Status = $"Could not open {url}: {ex.Message}";
+            Status = $"Could not open {target}: {ex.Message}";
         }
     }
 
@@ -180,11 +188,13 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (IsSignedIn)
         {
-            CredentialStore.Delete(Username);
+            var cleared = CredentialStore.Delete(Username);
             _pendingPassword = null;
             _pendingMfa = null;
             IsSignedIn = false;
-            Status = "Signed out.";
+            Status = cleared
+                ? "Signed out."
+                : "Signed out, but the saved password could not be removed from Credential Manager.";
             return;
         }
         SignIn();
