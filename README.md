@@ -53,7 +53,7 @@ Branding, endpoints and news come from a hosted JSON file whose URL you set in s
   "Description": "A NosTale server running on NosCore.",
   "LoginServerIp": "127.0.0.1",
   "BackgroundUrl": "",
-  "Auth": { "Url": "https://localhost", "Port": 7001 },
+  "Auth": { "Url": "https://127.0.0.1", "Port": 7001 },
   "Links": { "Website": "https://github.com/NosCoreIO/NosCore", "Discord": "" },
   "News": { "Server is up": "https://example.invalid/news/1" },
   "Ads": {

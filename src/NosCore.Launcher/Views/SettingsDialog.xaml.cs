@@ -20,6 +20,8 @@ public partial class SettingsDialog : Window
         LocaleBox.Text = settings.Locale;
         ConfigUrlBox.Text = settings.ConfigUrl;
 
+        SourceInitialized += (_, _) => DarkTitleBar.Apply(this);
+
         foreach (var region in Enum.GetValues<RegionType>())
         {
             RegionBox.Items.Add(region.ToString());

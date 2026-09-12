@@ -121,8 +121,11 @@ public sealed partial class MainViewModel : ObservableObject
         {
             ConfigSource.Remote => string.Empty,
             ConfigSource.Cache => "Offline — showing the last server info we saw.",
+            // Not an error: no config URL is the local-development case, and the
+            // built-in defaults already point at a NosCore on 127.0.0.1.
             _ when string.IsNullOrWhiteSpace(Settings.ConfigUrl) =>
-                "No launcher config URL set — add one in settings for server info and news.",
+                $"Local defaults — signing in against {_config.Auth.BaseAddress}. "
+                + "Set a launcher config URL in settings for server branding and news.",
             _ => $"Could not load the launcher config: {result.Error}",
         };
 

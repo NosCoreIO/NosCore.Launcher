@@ -5,7 +5,7 @@
   "BackgroundUrl": "",
   "StatusUrl": "",
   "Auth": {
-    "Url": "https://localhost",
+    "Url": "https://127.0.0.1",
     "Port": 7001
   },
   "Links": {

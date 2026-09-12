@@ -49,10 +49,10 @@
                 </Grid.RowDefinitions>
 
                 <!-- Frameless, so the bar doubles as the drag handle. -->
+                <!-- No title text here: the heading below already carries the
+                     server name, and repeating it reads as a duplicate rather
+                     than as chrome. The bar stays as the drag strip. -->
                 <Grid Grid.Row="0" Background="{StaticResource Wash40}" MouseLeftButtonDown="OnChromeDrag">
-                    <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="20,0,0,0"
-                               FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextStrong}" />
-
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                         <TextBlock Text="{Binding Username}" VerticalAlignment="Center" FontSize="12"
                                    Margin="0,0,6,0"

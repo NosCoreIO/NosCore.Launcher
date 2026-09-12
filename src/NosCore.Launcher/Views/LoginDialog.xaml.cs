@@ -11,6 +11,7 @@ public partial class LoginDialog : Window
         UsernameBox.Text = username;
         RememberBox.IsChecked = rememberMe;
 
+        SourceInitialized += (_, _) => DarkTitleBar.Apply(this);
         Loaded += (_, _) =>
         {
             if (string.IsNullOrEmpty(UsernameBox.Text))
