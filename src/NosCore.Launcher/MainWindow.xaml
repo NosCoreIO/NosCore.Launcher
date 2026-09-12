@@ -42,9 +42,7 @@
                                    Margin="0,0,6,0"
                                    Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVisible}}" />
                         <!-- Account glyph goes green once signed in, as the original did. -->
-                        <Button Command="{Binding AccountCommand}"
-                                Content="&#xE13D;" FontFamily="Segoe MDL2 Assets"
-                                ToolTip="{Binding AccountLabel}">
+                        <Button Command="{Binding AccountCommand}" ToolTip="{Binding AccountLabel}">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource ChromeGlyph}">
                                     <Style.Triggers>
@@ -54,11 +52,15 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
+                            <Path Data="{StaticResource IconAccount}" Style="{StaticResource ChromeIcon}" />
                         </Button>
                         <Button Command="{Binding EditSettingsCommand}" Style="{StaticResource ChromeGlyph}"
-                                Content="&#xE713;" FontFamily="Segoe MDL2 Assets" ToolTip="Settings" />
-                        <Button Click="OnClose" Style="{StaticResource ChromeGlyph}"
-                                Content="&#xE711;" FontFamily="Segoe MDL2 Assets" ToolTip="Close" />
+                                ToolTip="Settings">
+                            <Path Data="{StaticResource IconSettings}" Style="{StaticResource ChromeIcon}" />
+                        </Button>
+                        <Button Click="OnClose" Style="{StaticResource ChromeGlyph}" ToolTip="Close">
+                            <Path Data="{StaticResource IconClose}" Style="{StaticResource ChromeIcon}" />
+                        </Button>
                     </StackPanel>
                 </Grid>
 
