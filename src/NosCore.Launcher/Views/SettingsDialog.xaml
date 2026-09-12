@@ -19,7 +19,7 @@
             <Button Grid.Column="1" Content="Browse" Style="{StaticResource DialogButton}"
                     Margin="8,0,0,0" Click="OnBrowseClient" />
         </Grid>
-        <TextBlock Style="{StaticResource Body}" FontSize="11" Margin="0,6,0,0"
+        <TextBlock Style="{StaticResource DialogText}" FontSize="11" Margin="0,6,0,0"
                    Text="Left untouched. Every launch writes a freshly patched copy beside it." />
 
         <TextBlock Text="Patched client filename" Style="{StaticResource FieldLabel}" Margin="0,14,0,4" />
@@ -43,11 +43,10 @@
 
         <TextBlock Text="Launcher config URL" Style="{StaticResource FieldLabel}" Margin="0,14,0,4" />
         <TextBox x:Name="ConfigUrlBox" />
-        <TextBlock Style="{StaticResource Body}" FontSize="11" Margin="0,6,0,0"
+        <TextBlock Style="{StaticResource DialogText}" FontSize="11" Margin="0,6,0,0"
                    Text="Hosted launcher.json with the server branding, news and login address. Blank means offline defaults." />
 
-        <TextBlock x:Name="ErrorText" Style="{StaticResource Body}" Foreground="#FFFF8B8B"
-                   Margin="0,12,0,0" Visibility="Collapsed" />
+        <TextBlock x:Name="ErrorText" Style="{StaticResource DialogError}" Visibility="Collapsed" />
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
             <Button Content="Cancel" Style="{StaticResource DialogButton}" IsCancel="True" Click="OnCancel"

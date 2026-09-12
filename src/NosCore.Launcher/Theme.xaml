@@ -184,7 +184,8 @@
         </Setter>
     </Style>
 
-    <!-- Dialogs sit on a solid panel, not the photo, so they opt out of the outline. -->
+    <!-- Dialogs sit on a solid panel, not the photo, so they opt out of the
+         outline — over a flat background it reads as a smudge, not an edge. -->
     <Style x:Key="DialogText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="FontFamily" Value="Segoe UI" />
@@ -192,6 +193,15 @@
         <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Effect" Value="{x:Null}" />
+    </Style>
+
+    <Style x:Key="FieldLabel" TargetType="TextBlock" BasedOn="{StaticResource DialogText}">
+        <Setter Property="Foreground" Value="{StaticResource TextDim}" />
+    </Style>
+
+    <Style x:Key="DialogError" TargetType="TextBlock" BasedOn="{StaticResource DialogText}">
+        <Setter Property="Foreground" Value="#FFFF8B8B" />
+        <Setter Property="Margin" Value="0,12,0,0" />
     </Style>
 
     <Style TargetType="TextBox">
